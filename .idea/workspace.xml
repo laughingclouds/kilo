@@ -10,9 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="008d943b-2f00-496e-b3cb-f87f69cc649e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kilo" beforeDir="false" afterPath="$PROJECT_DIR$/kilo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kilo.c" beforeDir="false" afterPath="$PROJECT_DIR$/kilo.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,12 +25,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/kilo.c" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MakefileLocalSettings">
     <option name="projectSyncType">
       <map>
         <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
       </map>
     </option>
+  </component>
+  <component name="MakefilesProjectLoadingState">
+    <option name="doClean" value="false" />
   </component>
   <component name="ProjectId" id="1zmDPVAencYqqo7H1yqjC8JKYzY" />
   <component name="ProjectViewState">
@@ -46,7 +52,7 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="MakefileSettings" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunManager" selected="Gradle./home/laughinglouds/Project/kilo">
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
@@ -95,6 +101,8 @@
       <option name="presentableId" value="Default" />
       <updated>1634744346057</updated>
       <workItem from="1634744347725" duration="11850000" />
+      <workItem from="1634807518155" duration="5774000" />
+      <workItem from="1634874041583" duration="3455000" />
     </task>
     <servers />
   </component>
@@ -106,10 +114,17 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
