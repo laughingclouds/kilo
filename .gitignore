@@ -29,13 +29,14 @@
 *.dylib
 
 # Executables
-kilo
 *.exe
 *.out
 *.app
 *.i*86
 *.x86_64
 *.hex
+# main (Executable)
+kilo
 
 # Debug files
 *.dSYM/
