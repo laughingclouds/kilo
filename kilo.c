@@ -1,6 +1,6 @@
 /*
  * continue from here
- * https://viewsourcecode.org/snaptoken/kilo/03.rawInputAndOutput.html#append-buffer
+ * https://viewsourcecode.org/snaptoken/kilo/03.rawInputAndOutput.html#hide-the-cursor-when-repainting
 */
 #include <ctype.h>
 #include <stdio.h>
@@ -18,7 +18,11 @@ struct editorConfig E;
 
 /*** init ***/
 void initEditor() {
-	if (getWindowSize(&E.screenrows, &E.screencols) == -1) die("getWindowsSize");
+    E.cx = 0;
+    E.cy = 0;
+
+	if (getWindowSize(&E.screenrows, &E.screencols) == -1)
+        die("getWindowsSize");
 }
 
 int main() {
