@@ -12,15 +12,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="008d943b-2f00-496e-b3cb-f87f69cc649e" name="Changes" comment="added comment for function">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abuf.c" beforeDir="false" afterPath="$PROJECT_DIR$/abuf.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abuf.h" beforeDir="false" afterPath="$PROJECT_DIR$/abuf.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.c" beforeDir="false" afterPath="$PROJECT_DIR$/output.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/terminal.c" beforeDir="false" afterPath="$PROJECT_DIR$/terminal.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/terminal.h" beforeDir="false" afterPath="$PROJECT_DIR$/terminal.h" afterDir="false" />
-    </list>
+    <list default="true" id="008d943b-2f00-496e-b3cb-f87f69cc649e" name="Changes" comment="meh" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,7 +146,7 @@
       <workItem from="1634807518155" duration="5774000" />
       <workItem from="1634874041583" duration="3455000" />
       <workItem from="1634924404671" duration="5782000" />
-      <workItem from="1635015193805" duration="4730000" />
+      <workItem from="1635015193805" duration="5328000" />
     </task>
     <task id="LOCAL-00001" summary="Added movement functionality, you can now move your cursor around (using vim commands). Will change later, in favor of arrows for simplicity.">
       <created>1635021156464</created>
@@ -184,7 +176,42 @@
       <option name="project" value="LOCAL" />
       <updated>1635021377378</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added comments for functions">
+      <created>1635021717133</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1635021717133</updated>
+    </task>
+    <task id="LOCAL-00006" summary="removed redundant line">
+      <created>1635021765829</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1635021765829</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Used a custom dynamically sized struct to draw rows and kilo version.&#10;Cursor will now also get to the top left of the screen.">
+      <created>1635021906557</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1635021906557</updated>
+    </task>
+    <task id="LOCAL-00008" summary="structs and functions to Append Buffer rather than write &quot;~&quot; again and again.">
+      <created>1635021963825</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1635021963825</updated>
+    </task>
+    <task id="LOCAL-00009" summary="meh">
+      <created>1635021970064</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1635021970064</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,6 +240,11 @@
     <MESSAGE value="Added constant for package version.&#10;Updated struct editorConfig to include cursor coordinates." />
     <MESSAGE value="Initialized cursor coordinates in `initEditor()`" />
     <MESSAGE value="added comment for function" />
-    <option name="LAST_COMMIT_MESSAGE" value="added comment for function" />
+    <MESSAGE value="added comments for functions" />
+    <MESSAGE value="removed redundant line" />
+    <MESSAGE value="Used a custom dynamically sized struct to draw rows and kilo version.&#10;Cursor will now also get to the top left of the screen." />
+    <MESSAGE value="structs and functions to Append Buffer rather than write &quot;~&quot; again and again." />
+    <MESSAGE value="meh" />
+    <option name="LAST_COMMIT_MESSAGE" value="meh" />
   </component>
 </project>
