@@ -1,4 +1,4 @@
-/* functions to work with terminal*/
+/* functions and definitions to work with terminal*/
 
 /* Exits with error message */
 extern void die(const char *s);

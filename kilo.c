@@ -1,6 +1,6 @@
 /*
  * continue from here
- * https://viewsourcecode.org/snaptoken/kilo/03.rawInputAndOutput.html#hide-the-cursor-when-repainting
+ * https://viewsourcecode.org/snaptoken/kilo/03.rawInputAndOutput.html#arrow-keys
 */
 #include <ctype.h>
 #include <stdio.h>

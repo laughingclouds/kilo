@@ -12,7 +12,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="008d943b-2f00-496e-b3cb-f87f69cc649e" name="Changes" comment="meh" />
+    <list default="true" id="008d943b-2f00-496e-b3cb-f87f69cc649e" name="Changes" comment="meh">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kilo.c" beforeDir="false" afterPath="$PROJECT_DIR$/kilo.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terminal.c" beforeDir="false" afterPath="$PROJECT_DIR$/terminal.c" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,11 +91,6 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunManager" selected="Makefile Target.kilo">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -146,7 +145,8 @@
       <workItem from="1634807518155" duration="5774000" />
       <workItem from="1634874041583" duration="3455000" />
       <workItem from="1634924404671" duration="5782000" />
-      <workItem from="1635015193805" duration="5328000" />
+      <workItem from="1635015193805" duration="5933000" />
+      <workItem from="1635059881426" duration="1324000" />
     </task>
     <task id="LOCAL-00001" summary="Added movement functionality, you can now move your cursor around (using vim commands). Will change later, in favor of arrows for simplicity.">
       <created>1635021156464</created>
