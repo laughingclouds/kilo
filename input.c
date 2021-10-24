@@ -39,6 +39,21 @@ void editorProcessKeypress() {
             write(STDOUT_FILENO, "\x1b[2j", 4);
             write(STDOUT_FILENO, "\x1b[12;40H", 3);
             exit(0);
+        
+        case HOME_KEY:
+            E.cx = 0; break;
+        case END_KEY:
+            E.cx = E.screencols - 1; break;
+
+        case PAGE_UP:
+        case PAGE_DOWN:
+            {
+                // move cursor to top/bottom of the screen
+                int times = E.screenrows;
+                while (times--)
+                    editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
+            }
+            break;
 
         case ARROW_LEFT:
         case ARROW_RIGHT:
