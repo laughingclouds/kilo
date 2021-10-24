@@ -1,6 +1,6 @@
 /*
  * continue from here
- * https://viewsourcecode.org/snaptoken/kilo/03.rawInputAndOutput.html#arrow-keys
+ * https://viewsourcecode.org/snaptoken/kilo/03.rawInputAndOutput.html#the-home-and-end-keys
 */
 #include <ctype.h>
 #include <stdio.h>
