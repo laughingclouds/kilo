@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
-#include <termios.h>
 #include <unistd.h>
 
+#include "input.h"
 #include "kilo.h"
 
 
@@ -36,11 +36,31 @@ void enableRawMode() {
     if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) die("tcsetattr");
 }
 
-char editorReadKey() {
+int editorReadKey() {
     int nread;
     char c;
     while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
         if (nread == -1 && errno != EAGAIN) die("read");
+    }
+
+    // '\x1b' is already read in `c`, next we input '[' and then
+    if (c == '\x1b') {
+        //arrow key is '\x1b' + '[' + 'A'/'B'/'C'/'D' => 1 char each
+        char seq[3];
+
+        if (read(STDIN_FILENO, &seq[0], 1) != 1) return '\x1b';// '['
+        if (read(STDIN_FILENO, &seq[1], 1) != 1) return '\x1b';// 'A'/'B'/'C'/'D'
+        // check if it's trully the seq we want
+        if (seq[0] == '[') {
+            switch (seq[1]) {
+                case 'A': return ARROW_UP;
+                case 'B': return ARROW_DOWN;
+                case 'C': return ARROW_RIGHT;
+                case 'D': return ARROW_LEFT;
+            }
+        }
+
+        return '\x1b';
     }
     return c;
 }
