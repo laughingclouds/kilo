@@ -3,9 +3,9 @@ CFLAGS=-Wall -Wextra
 
 ODIR=obj
 
-DEPS = abuf.h input.h kilo.h output.h terminal.h
+DEPS = abuf.h fileio.h input.h kilo.h output.h terminal.h
 
-_OBJ = abuf.o input.o kilo.o output.o terminal.o
+_OBJ = abuf.o fileio.o input.o kilo.o output.o terminal.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.c $(DEPS)
