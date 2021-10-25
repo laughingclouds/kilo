@@ -5,10 +5,21 @@
 #include "abuf.h"
 #include "kilo.h"
 
+
+void editorScroll() {
+    if (E.cy < E.rowoff) {
+        E.rowoff = E.cy;
+    }
+    if (E.cy >= E.rowoff + E.screenrows) {
+        E.rowoff = E.cy - E.screenrows + 1;
+    }
+}
+
 void editorDrawRows(struct abuf *ab) {
     for (int y = 0; y < E.screenrows; y++) {
-        if (y > E.numrows) {
-            if (y == E.screenrows / 3) {
+        int filerow = y + E.rowoff;
+        if (filerow >= E.numrows) {
+            if (E.numrows == 0 && y == E.screenrows / 3) {
                 char welcome[80];
                 int welcomelen = snprintf(welcome,
                                         sizeof(welcome),
@@ -30,9 +41,9 @@ void editorDrawRows(struct abuf *ab) {
                 abAppend(ab,"~", 1);
             }
         } else {
-            int len = E.row.size;
+            int len = E.row[filerow].size;
             if (len > E.screencols) len = E.screencols;
-            abAppend(ab, E.row.chars, E.row.size);
+            abAppend(ab, E.row[filerow].chars, len);
         }
 
         abAppend(ab, "\x1b[k", 3);
@@ -42,6 +53,8 @@ void editorDrawRows(struct abuf *ab) {
 }
 
 void editorRefreshScreen() {
+    editorScroll();
+
     struct abuf ab = ABUF_INIT;
 
     abAppend(&ab, "\x1b[?25l", 6);
