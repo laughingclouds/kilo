@@ -4,6 +4,7 @@
 
 /**/
 enum editorKey {
+  BACKSPACE = 127,
   ARROW_LEFT = 1000,
   ARROW_RIGHT,
   ARROW_UP,
@@ -14,6 +15,8 @@ enum editorKey {
   PAGE_UP,
   PAGE_DOWN
 };
+
+extern char *editorPrompt(char *prompt, void (*callback)(char *, int));
 
 /* deal with custom key combinations */
 extern void editorProcessKeypress();
