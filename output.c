@@ -1,12 +1,18 @@
 #include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-#include "kilo.h"
+#include "editor_ops.h"
+#include "output.h"
+#include "syntax_hl.h"
 
 /***Append buffer***/
+
+/* append `len` bytes of string s to ab->b (buffer)
+ * | used in output */
 void abAppend(struct abuf *ab, const char *s, int len) {
   char *new = realloc(ab->b, ab->len + len);
 
@@ -17,42 +23,49 @@ void abAppend(struct abuf *ab, const char *s, int len) {
   ab->len += len;
 }
 
+/* deallocates dynamic memory used by ab */
 void abFree(struct abuf *ab) { free(ab->b); }
 
+/*** output ***/
+
 void editorScroll() {
-  if (E.cy < E.rowoff)
+  E.rx = 0;
+  if (E.cy < E.numrows) {
+    E.rx = editorRowCxToRx(&E.row[E.cy], E.cx);
+  }
+
+  if (E.cy < E.rowoff) {
     E.rowoff = E.cy;
-
-  if (E.cy >= E.rowoff + E.screenrows)
+  }
+  if (E.cy >= E.rowoff + E.screenrows) {
     E.rowoff = E.cy - E.screenrows + 1;
-
-  if (E.cx < E.coloff)
-    E.coloff = E.cx;
-
-  if (E.cx >= E.coloff + E.screencols)
-    E.coloff = E.cx - E.screencols + 1;
+  }
+  if (E.rx < E.coloff) {
+    E.coloff = E.rx;
+  }
+  if (E.rx >= E.coloff + E.screencols) {
+    E.coloff = E.rx - E.screencols + 1;
+  }
 }
 
-/*** output ***/
+/* fills screen with rows of `~` just like in vim 
+ * | used in output */
 void editorDrawRows(struct abuf *ab) {
-  for (int y = 0; y < E.screenrows; y++) {
+  int y;
+  for (y = 0; y < E.screenrows; y++) {
     int filerow = y + E.rowoff;
     if (filerow >= E.numrows) {
       if (E.numrows == 0 && y == E.screenrows / 3) {
         char welcome[80];
         int welcomelen = snprintf(welcome, sizeof(welcome),
-                                  "Kilo editor --version %s", KILO_VERSION);
-
+                                  "Kilo editor -- version %s", KILO_VERSION);
         if (welcomelen > E.screencols)
           welcomelen = E.screencols;
         int padding = (E.screencols - welcomelen) / 2;
         if (padding) {
-          // putting a "~" in the line of the welcome msg then
-          // decrementing padding to not mess up the msg position
           abAppend(ab, "~", 1);
           padding--;
         }
-        // putting spaces to bring the welcome msg to the center
         while (padding--)
           abAppend(ab, " ", 1);
         abAppend(ab, welcome, welcomelen);
@@ -60,18 +73,85 @@ void editorDrawRows(struct abuf *ab) {
         abAppend(ab, "~", 1);
       }
     } else {
-      int len = E.row[filerow].size;
+      int len = E.row[filerow].rsize - E.coloff;
       if (len < 0)
         len = 0;
       if (len > E.screencols)
         len = E.screencols;
-      abAppend(ab, E.row[filerow].chars, len);
+      char *c = &E.row[filerow].render[E.coloff];
+      unsigned char *hl = &E.row[filerow].hl[E.coloff];
+      int current_color = -1;
+      int j;
+      for (j = 0; j < len; j++) {
+        if (iscntrl(c[j])) {
+          char sym = (c[j] <= 26) ? '@' + c[j] : '?';
+          abAppend(ab, "\x1b[7m", 4);
+          abAppend(ab, &sym, 1);
+          abAppend(ab, "\x1b[m", 3);
+          if (current_color != -1) {
+            char buf[16];
+            int clen = snprintf(buf, sizeof(buf), "\x1b[%dm", current_color);
+            abAppend(ab, buf, clen);
+          }
+        } else if (hl[j] == HL_NORMAL) {
+          if (current_color != -1) {
+            abAppend(ab, "\x1b[39m", 5);
+            current_color = -1;
+          }
+          abAppend(ab, &c[j], 1);
+        } else {
+          int color = editorSyntaxToColor(hl[j]);
+          if (color != current_color) {
+            current_color = color;
+            char buf[16];
+            int clen = snprintf(buf, sizeof(buf), "\x1b[%dm", color);
+            abAppend(ab, buf, clen);
+          }
+          abAppend(ab, &c[j], 1);
+        }
+      }
+      abAppend(ab, "\x1b[39m", 5);
     }
 
-    abAppend(ab, "\x1b[k", 3);
-    if (y < E.screenrows - 1)
-      abAppend(ab, "\r\n", 2);
+    abAppend(ab, "\x1b[K", 3);
+    abAppend(ab, "\r\n", 2);
   }
+}
+
+/*
+ * | used in output*/
+void editorDrawStatusBar(struct abuf *ab) {
+  abAppend(ab, "\x1b[7m", 4);
+  char status[80], rstatus[80];
+  int len = snprintf(status, sizeof(status), "%.20s - %d lines %s",
+                     E.filename ? E.filename : "[No Name]", E.numrows,
+                     E.dirty ? "(modified)" : "");
+  int rlen =
+      snprintf(rstatus, sizeof(rstatus), "%s | %d/%d",
+               E.syntax ? E.syntax->filetype : "no ft", E.cy + 1, E.numrows);
+  if (len > E.screencols)
+    len = E.screencols;
+  abAppend(ab, status, len);
+  while (len < E.screencols) {
+    if (E.screencols - len == rlen) {
+      abAppend(ab, rstatus, rlen);
+      break;
+    } else {
+      abAppend(ab, " ", 1);
+      len++;
+    }
+  }
+  abAppend(ab, "\x1b[m", 3);
+  abAppend(ab, "\r\n", 2);
+}
+
+void editorDrawMessageBar(struct abuf *ab) {
+  abAppend(ab, "\x1b[K", 3);
+  int msglen = strlen(E.statusmsg);
+  if (msglen > E.screencols)
+    msglen = E.screencols;
+  if (msglen && time(NULL) - E.statusmsg_time < 5)
+    abAppend(ab, E.statusmsg, msglen);
 }
 
 void editorRefreshScreen() {
@@ -83,9 +163,12 @@ void editorRefreshScreen() {
   abAppend(&ab, "\x1b[H", 3);
 
   editorDrawRows(&ab);
+  editorDrawStatusBar(&ab);
+  editorDrawMessageBar(&ab);
 
-  char buf[32]; // bring cursor to (cx, cy) after drawing rows
-  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff), E.cx + 1);
+  char buf[32];
+  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff) + 1,
+           (E.rx - E.coloff) + 1);
   abAppend(&ab, buf, strlen(buf));
 
   abAppend(&ab, "\x1b[?25h", 6);

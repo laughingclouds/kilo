@@ -16,6 +16,7 @@ void die(const char *s) {
     exit(1);
 }
 
+/* Reverts to the original terminal settings */
 void disableRawMode() {
     if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &E.orig_termios) == -1)
         die("tcsetattr");
@@ -28,7 +29,7 @@ void enableRawMode() {
     struct termios raw = E.orig_termios;
     raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
     raw.c_oflag &= ~(OPOST);
-    raw.c_cflag &= ~(CS8);
+    raw.c_cflag |= (CS8);
     raw.c_lflag &= ~(ICANON | ECHO | ISIG | IEXTEN);
     raw.c_cc[VTIME] = 1;
     raw.c_cc[VMIN] = 0;
@@ -88,6 +89,8 @@ int editorReadKey() {
     return c;
 }
 
+/* saves cursor positions into `rows` and `cols`
+ * returns: -1 for error, else 0 */
 int getCursorPosition(int *rows, int *cols) {
 	char buf[32];
 	unsigned int i = 0;

@@ -7,7 +7,8 @@
 
 /***row operations***/
 
-/**/
+/*
+ * | used in output*/
 int editorRowCxToRx(erow *row, int cx) {
   int rx = 0;
   int j;
@@ -19,6 +20,8 @@ int editorRowCxToRx(erow *row, int cx) {
   return rx;
 }
 
+/*
+ * | used in editor_ops */
 int editorRowRxToCx(erow *row, int rx) {
   int cur_rx = 0;
   int cx;
@@ -32,6 +35,8 @@ int editorRowRxToCx(erow *row, int rx) {
   return cx;
 }
 
+/*
+ * | used in editor_ops */
 void editorUpdateRow(erow *row) {
   int tabs = 0;
   int j;
@@ -39,13 +44,14 @@ void editorUpdateRow(erow *row) {
     if (row->chars[j] == '\t') tabs++;
 
   free(row->render);
-  row->render = malloc(row->size + tabs*(KILO_TAB_STOP - 1) + 1);
+  row->render = malloc(row->size + tabs * (KILO_TAB_STOP - 1) + 1);
 
   int idx = 0;
   for (j = 0; j < row->size; j++) {
     if (row->chars[j] == '\t') {
       row->render[idx++] = ' ';
-      while (idx % KILO_TAB_STOP != 0) row->render[idx++] = ' ';
+      while (idx % KILO_TAB_STOP != 0)
+        row->render[idx++] = ' ';
     } else {
       row->render[idx++] = row->chars[j];
     }
@@ -56,6 +62,8 @@ void editorUpdateRow(erow *row) {
   editorUpdateSyntax(row);
 }
 
+/*
+ * | used in editor_ops fileio*/
 void editorInsertRow(int at, char *s, size_t len) {
   if (at < 0 || at > E.numrows) return;
 
@@ -80,12 +88,16 @@ void editorInsertRow(int at, char *s, size_t len) {
   E.dirty++;
 }
 
+/*
+ * | used in editor_ops */
 void editorFreeRow(erow *row) {
   free(row->render);
   free(row->chars);
   free(row->hl);
 }
 
+/*
+ * | used in editor_ops */
 void editorDelRow(int at) {
   if (at < 0 || at >= E.numrows) return;
   editorFreeRow(&E.row[at]);
@@ -95,6 +107,8 @@ void editorDelRow(int at) {
   E.dirty++;
 }
 
+/*
+ * | used in editor_ops */
 void editorRowInsertChar(erow *row, int at, int c) {
   if (at < 0 || at > row->size) at = row->size;
   row->chars = realloc(row->chars, row->size + 2);
@@ -105,6 +119,8 @@ void editorRowInsertChar(erow *row, int at, int c) {
   E.dirty++;
 }
 
+/*
+ * | used in editor_ops */
 void editorRowAppendString(erow *row, char *s, size_t len) {
   row->chars = realloc(row->chars, row->size + len + 1);
   memcpy(&row->chars[row->size], s, len);
@@ -114,6 +130,8 @@ void editorRowAppendString(erow *row, char *s, size_t len) {
   E.dirty++;
 }
 
+/*
+ * | used in editor_ops */
 void editorRowDelChar(erow *row, int at) {
   if (at < 0 || at >= row->size) return;
   memmove(&row->chars[at], &row->chars[at + 1], row->size - at);
@@ -165,6 +183,8 @@ void editorDelChar() {
 
 /*** find ***/
 
+/*
+ * | used in editor_ops */
 void editorFindCallback(char *query, int key) {
   static int last_match = -1;
   static int direction = 1;
@@ -222,8 +242,8 @@ void editorFind() {
   int saved_coloff = E.coloff;
   int saved_rowoff = E.rowoff;
 
-  char *query = editorPrompt("Search: %s (Use ESC/Arrows/Enter)",
-                             editorFindCallback);
+  char *query =
+      editorPrompt("Search: %s (Use ESC/Arrows/Enter)", editorFindCallback);
 
   if (query) {
     free(query);

@@ -5,7 +5,6 @@
 #include "editor_ops.h"
 #include "fileio.h"
 #include "input.h"
-#include "kilo.h"
 #include "output.h"
 #include "terminal.h"
 
@@ -23,16 +22,19 @@ char *editorPrompt(char *prompt, void (*callback)(char *, int)) {
 
     int c = editorReadKey();
     if (c == DEL_KEY || c == CTRL_KEY('h') || c == BACKSPACE) {
-      if (buflen != 0) buf[--buflen] = '\0';
+      if (buflen != 0)
+        buf[--buflen] = '\0';
     } else if (c == '\x1b') {
       editorSetStatusMessage("");
-      if (callback) callback(buf, c);
+      if (callback)
+        callback(buf, c);
       free(buf);
       return NULL;
     } else if (c == '\r') {
       if (buflen != 0) {
         editorSetStatusMessage("");
-        if (callback) callback(buf, c);
+        if (callback)
+          callback(buf, c);
         return buf;
       }
     } else if (!iscntrl(c) && c < 128) {
@@ -48,7 +50,8 @@ char *editorPrompt(char *prompt, void (*callback)(char *, int)) {
   }
 }
 
-/* for moving cursor in the terminal */
+/* for moving cursor in the terminal
+ * | used in input */
 void editorMoveCursor(int key) {
   erow *row = (E.cy >= E.numrows) ? NULL : &E.row[E.cy];
 

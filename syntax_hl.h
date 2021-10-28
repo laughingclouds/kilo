@@ -1,11 +1,6 @@
 #include "kilo.h"
 
-#define HL_HIGHLIGHT_NUMBERS (1<<0)
-#define HL_HIGHLIGHT_STRINGS (1<<1)
-#define HLDB_ENTRIES (sizeof(HLDB) / sizeof(HLDB[0]))
-
 #ifndef  EDITORHIGHLIGHT
-
 #define EDITORHIGHLIGHT
 enum editorHighlight {
   HL_NORMAL = 0,
@@ -32,9 +27,13 @@ struct editorSyntax {
 };
 #endif
 
-extern struct editorSyntax HLDB[];
-
-extern int is_separator(int c);
+/*
+ * | used in editor_ops syntax_hl*/
 extern void editorUpdateSyntax(erow *row);
+
+/*
+ * | used in output */
 extern int editorSyntaxToColor(int hl);
+/*
+ * |  used in fileio */
 extern void editorSelectSyntaxHighlight();

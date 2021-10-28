@@ -41,21 +41,3 @@ struct editorConfig {
 #endif
 
 extern struct editorConfig E; 
-
-/*** append buffer ***/
-#if !defined (ABUF_INIT) || !defined (ABUF)
-#define ABUF_INIT {NULL, 0}
-#define ABUF
-
-struct abuf {
-    char *b;    // stands for buffer
-    int len;
-};
-
-#endif
-
-/* append `len` bytes of string s to ab->b (buffer) */
-extern void abAppend(struct abuf *ab, const char *s, int len);
-
-/* deallocates dynamic memory used by ab */
-extern void abFree(struct abuf *ab);

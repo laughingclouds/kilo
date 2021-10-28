@@ -1,13 +1,21 @@
 /* Function declarations for terminal output*/
 
-/***Append buffer***/
-/**/
-extern void abAppend(struct abuf *ab, const char *s, int len);
-extern void abFree(struct abuf *ab);
-
-/* fills screen with rows of `~` just like in vim */
-extern void editorDrawRows();
-
+/*
+ * | used in kilo input*/
 extern void editorRefreshScreen();
 
+/*
+ * | used in fileio input kilo*/
 extern void editorSetStatusMessage(const char *fmt, ...);
+
+/*** append buffer ***/
+#if !defined (ABUF_INIT) || !defined (ABUF)
+#define ABUF_INIT {NULL, 0}
+#define ABUF
+
+struct abuf {
+    char *b;    // stands for buffer
+    int len;
+};
+
+#endif

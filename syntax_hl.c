@@ -5,6 +5,10 @@
 #include "kilo.h"
 #include "syntax_hl.h"
 
+#define HL_HIGHLIGHT_NUMBERS (1<<0)
+#define HL_HIGHLIGHT_STRINGS (1<<1)
+#define HLDB_ENTRIES (sizeof(HLDB) / sizeof(HLDB[0]))
+
 
 char *C_HL_extensions[] = { ".c", ".h", ".cpp", NULL };
 char *C_HL_keywords[] = {
