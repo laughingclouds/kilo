@@ -1,9 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "editor_ops.h"
 #include "input.h"
@@ -12,8 +12,9 @@
 #include "syntax_hl.h"
 #include "terminal.h"
 
-/***file i/o***/
-/**/
+
+/*** file i/o ***/
+//
 char *editorRowsToString(int *buflen) {
   int totlen = 0;
   int j;
@@ -33,7 +34,6 @@ char *editorRowsToString(int *buflen) {
   return buf;
 }
 
-/* open char *filename */
 void editorOpen(char *filename) {
   free(E.filename);
   E.filename = strdup(filename);
@@ -41,14 +41,15 @@ void editorOpen(char *filename) {
   editorSelectSyntaxHighlight();
 
   FILE *fp = fopen(filename, "r");
-  if (!fp) die("fopen");
+  if (!fp)
+    die("fopen");
 
   char *line = NULL;
   size_t linecap = 0;
   ssize_t linelen;
   while ((linelen = getline(&line, &linecap, fp)) != -1) {
-    while (linelen > 0 && (line[linelen - 1] == '\n' ||
-                           line[linelen - 1] == '\r'))
+    while (linelen > 0 &&
+           (line[linelen - 1] == '\n' || line[linelen - 1] == '\r'))
       linelen--;
     editorInsertRow(E.numrows, line, linelen);
   }

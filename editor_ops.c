@@ -4,11 +4,8 @@
 #include "input.h"
 #include "kilo.h"
 #include "syntax_hl.h"
-
-/***row operations***/
-
-/*
- * | used in output*/
+/*** row operations ***/
+//
 int editorRowCxToRx(erow *row, int cx) {
   int rx = 0;
   int j;
@@ -20,8 +17,6 @@ int editorRowCxToRx(erow *row, int cx) {
   return rx;
 }
 
-/*
- * | used in editor_ops */
 int editorRowRxToCx(erow *row, int rx) {
   int cur_rx = 0;
   int cx;
@@ -30,18 +25,18 @@ int editorRowRxToCx(erow *row, int rx) {
       cur_rx += (KILO_TAB_STOP - 1) - (cur_rx % KILO_TAB_STOP);
     cur_rx++;
 
-    if (cur_rx > rx) return cx;
+    if (cur_rx > rx)
+      return cx;
   }
   return cx;
 }
 
-/*
- * | used in editor_ops */
 void editorUpdateRow(erow *row) {
   int tabs = 0;
   int j;
   for (j = 0; j < row->size; j++)
-    if (row->chars[j] == '\t') tabs++;
+    if (row->chars[j] == '\t')
+      tabs++;
 
   free(row->render);
   row->render = malloc(row->size + tabs * (KILO_TAB_STOP - 1) + 1);
@@ -62,14 +57,14 @@ void editorUpdateRow(erow *row) {
   editorUpdateSyntax(row);
 }
 
-/*
- * | used in editor_ops fileio*/
 void editorInsertRow(int at, char *s, size_t len) {
-  if (at < 0 || at > E.numrows) return;
+  if (at < 0 || at > E.numrows)
+    return;
 
   E.row = realloc(E.row, sizeof(erow) * (E.numrows + 1));
   memmove(&E.row[at + 1], &E.row[at], sizeof(erow) * (E.numrows - at));
-  for (int j = at + 1; j <= E.numrows; j++) E.row[j].idx++;
+  for (int j = at + 1; j <= E.numrows; j++)
+    E.row[j].idx++;
 
   E.row[at].idx = at;
 
@@ -88,29 +83,26 @@ void editorInsertRow(int at, char *s, size_t len) {
   E.dirty++;
 }
 
-/*
- * | used in editor_ops */
 void editorFreeRow(erow *row) {
   free(row->render);
   free(row->chars);
   free(row->hl);
 }
 
-/*
- * | used in editor_ops */
 void editorDelRow(int at) {
-  if (at < 0 || at >= E.numrows) return;
+  if (at < 0 || at >= E.numrows)
+    return;
   editorFreeRow(&E.row[at]);
   memmove(&E.row[at], &E.row[at + 1], sizeof(erow) * (E.numrows - at - 1));
-  for (int j = at; j < E.numrows - 1; j++) E.row[j].idx--;
+  for (int j = at; j < E.numrows - 1; j++)
+    E.row[j].idx--;
   E.numrows--;
   E.dirty++;
 }
 
-/*
- * | used in editor_ops */
 void editorRowInsertChar(erow *row, int at, int c) {
-  if (at < 0 || at > row->size) at = row->size;
+  if (at < 0 || at > row->size)
+    at = row->size;
   row->chars = realloc(row->chars, row->size + 2);
   memmove(&row->chars[at + 1], &row->chars[at], row->size - at + 1);
   row->size++;
@@ -119,8 +111,6 @@ void editorRowInsertChar(erow *row, int at, int c) {
   E.dirty++;
 }
 
-/*
- * | used in editor_ops */
 void editorRowAppendString(erow *row, char *s, size_t len) {
   row->chars = realloc(row->chars, row->size + len + 1);
   memcpy(&row->chars[row->size], s, len);
@@ -130,10 +120,9 @@ void editorRowAppendString(erow *row, char *s, size_t len) {
   E.dirty++;
 }
 
-/*
- * | used in editor_ops */
 void editorRowDelChar(erow *row, int at) {
-  if (at < 0 || at >= row->size) return;
+  if (at < 0 || at >= row->size)
+    return;
   memmove(&row->chars[at], &row->chars[at + 1], row->size - at);
   row->size--;
   editorUpdateRow(row);
@@ -141,7 +130,7 @@ void editorRowDelChar(erow *row, int at) {
 }
 
 /*** editor operations ***/
-/**/
+
 void editorInsertChar(int c) {
   if (E.cy == E.numrows) {
     editorInsertRow(E.numrows, "", 0);
@@ -166,8 +155,10 @@ void editorInsertNewline() {
 }
 
 void editorDelChar() {
-  if (E.cy == E.numrows) return;
-  if (E.cx == 0 && E.cy == 0) return;
+  if (E.cy == E.numrows)
+    return;
+  if (E.cx == 0 && E.cy == 0)
+    return;
 
   erow *row = &E.row[E.cy];
   if (E.cx > 0) {
@@ -183,8 +174,6 @@ void editorDelChar() {
 
 /*** find ***/
 
-/*
- * | used in editor_ops */
 void editorFindCallback(char *query, int key) {
   static int last_match = -1;
   static int direction = 1;
@@ -211,13 +200,16 @@ void editorFindCallback(char *query, int key) {
     direction = 1;
   }
 
-  if (last_match == -1) direction = 1;
+  if (last_match == -1)
+    direction = 1;
   int current = last_match;
   int i;
   for (i = 0; i < E.numrows; i++) {
     current += direction;
-    if (current == -1) current = E.numrows - 1;
-    else if (current == E.numrows) current = 0;
+    if (current == -1)
+      current = E.numrows - 1;
+    else if (current == E.numrows)
+      current = 0;
 
     erow *row = &E.row[current];
     char *match = strstr(row->render, query);

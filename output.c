@@ -1,18 +1,12 @@
-#include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-#include "editor_ops.h"
-#include "output.h"
-#include "syntax_hl.h"
-
-/***Append buffer***/
-
-/* append `len` bytes of string s to ab->b (buffer)
- * | used in output */
+#include "kilo.h"
+/*** append buffer ***/
+//
 void abAppend(struct abuf *ab, const char *s, int len) {
   char *new = realloc(ab->b, ab->len + len);
 
@@ -23,7 +17,6 @@ void abAppend(struct abuf *ab, const char *s, int len) {
   ab->len += len;
 }
 
-/* deallocates dynamic memory used by ab */
 void abFree(struct abuf *ab) { free(ab->b); }
 
 /*** output ***/
@@ -48,8 +41,6 @@ void editorScroll() {
   }
 }
 
-/* fills screen with rows of `~` just like in vim 
- * | used in output */
 void editorDrawRows(struct abuf *ab) {
   int y;
   for (y = 0; y < E.screenrows; y++) {
@@ -118,8 +109,6 @@ void editorDrawRows(struct abuf *ab) {
   }
 }
 
-/*
- * | used in output*/
 void editorDrawStatusBar(struct abuf *ab) {
   abAppend(ab, "\x1b[7m", 4);
   char status[80], rstatus[80];

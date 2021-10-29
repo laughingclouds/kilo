@@ -1,7 +1,5 @@
-/* Open editor 
- * | used in kilo*/
-extern void editorOpen();
-
-/*
- * | used in input */
+/*| used in input*/
 extern void editorSave();
+
+/*| used in kilo*/
+extern void editorOpen(char *filename);
