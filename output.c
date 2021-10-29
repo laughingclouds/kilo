@@ -1,10 +1,13 @@
+#include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
+#include "editor_ops.h"
 #include "kilo.h"
+#include "syntax_hl.h"
 /*** append buffer ***/
 //
 void abAppend(struct abuf *ab, const char *s, int len) {
